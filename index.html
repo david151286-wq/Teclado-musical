@@ -6,34 +6,35 @@
 :root{--bg:#eef0f4;--fg:#1a1d24;--pn:#fff;--bd:#cfd3dc;--ac:#e8590c;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#14161c;--fg:#eceef3;--pn:#1e212a;--bd:#343846;--ac:#ff8a3d}}
 :root[data-theme="dark"]{--bg:#14161c;--fg:#eceef3;--pn:#1e212a;--bd:#343846;--ac:#ff8a3d}
-html,body{height:100%}body{margin:0;display:flex;flex-direction:column;gap:10px;padding:10px;box-sizing:border-box;background:var(--bg);color:var(--fg);font:15px system-ui,-apple-system,sans-serif;overflow:hidden}
+html,body{height:100%}body{margin:0;display:flex;flex-direction:column;gap:8px;padding:8px;box-sizing:border-box;background:var(--bg);color:var(--fg);font:15px system-ui,-apple-system,sans-serif;overflow:hidden}
 header{display:flex;justify-content:space-between;align-items:center}h1{font-size:18px;margin:0}
 button{font:inherit;color:var(--fg);background:var(--pn);border:1px solid var(--bd);border-radius:10px;padding:8px 12px;cursor:pointer}
 button.act{background:var(--ac);border-color:var(--ac);color:#fff}
 .chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;flex:none}.chips button{white-space:nowrap}
 .row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}.row label{display:flex;gap:6px;align-items:center;font-size:13px}
 .row input[type=range]{width:90px}.pos{min-width:96px;text-align:center;font-weight:600}
-.hint{font-size:12px;opacity:.7}.ped{flex:none;padding:14px;touch-action:none;user-select:none;-webkit-user-select:none;font-weight:600}
-.kb{position:relative;flex:1;min-height:170px;max-height:400px;margin-top:auto;touch-action:none;user-select:none;-webkit-user-select:none}
+.hint{font-size:12px;opacity:.7}#panel[hidden]{display:none}#panel{flex:none;display:flex;flex-direction:column;gap:8px;max-height:42vh;overflow:auto}.top{display:flex;gap:6px;align-items:center;flex:none}.top select{flex:1;min-width:0;font:inherit;color:var(--fg);background:var(--pn);border:1px solid var(--bd);border-radius:10px;padding:8px}.top button{padding:8px 10px}.top .pos{min-width:76px;font-size:12px}.ped{flex:none;padding:10px;touch-action:none;user-select:none;-webkit-user-select:none;font-weight:600}
+.kb{position:relative;flex:1;min-height:120px;max-height:400px;margin-top:auto;touch-action:none;user-select:none;-webkit-user-select:none}
 .ws{display:flex;height:100%;gap:2px}
 .w{flex:1;background:linear-gradient(#fff,#e6e9ef);border-radius:0 0 7px 7px;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;padding-bottom:8px;color:#555;font:600 11px system-ui;gap:2px}
 .b{position:absolute;top:0;height:62%;background:linear-gradient(#3a3a3a,#000);border-radius:0 0 5px 5px;z-index:2;display:flex;align-items:flex-end;justify-content:center;padding-bottom:6px;color:#bbb;font:600 10px system-ui}
 .w.on,.b.on{background:var(--ac);color:#fff}.w *,.b *{pointer-events:none}.nolb .lb{display:none}
 </style></head><body>
-<header><h1>🎹 Teclado Virtual</h1><button id="inst" hidden>Instalar app</button></header>
-<div class="chips" id="chips"></div>
+<div class="top"><select id="isel"></select><button id="dn">◀</button><span class="pos" id="pos"></span><button id="up">▶</button><button id="sus">Sustain</button><button id="mn">⚙</button></div>
+<div id="panel" hidden><div class="row"><b>🎹 Teclado Virtual</b><button id="inst" hidden>Instalar app</button></div>
+
 <div class="row">
- <button id="dn">◀ Graves</button><span class="pos" id="pos"></span><button id="up">Agudos ▶</button>
+
  <label>Volume <input type="range" id="vol" min="0" max="1" step=".01" value=".8"></label>
  <label>Reverb <input type="range" id="rev" min="0" max=".6" step=".01" value=".2"></label>
- <button id="sus">Sustain</button><button id="lbl" class="act">Rótulos</button>
+ <button id="lbl" class="act">Rótulos</button>
 </div>
 <div class="row">
  <label>Acorde <select id="ch"><option value="0">Desligado</option><option value="1">Maior</option><option value="2">Menor</option><option value="3">Sétima (7)</option><option value="4">Menor sétima (m7)</option><option value="5">Power (5)</option></select></label>
  <button id="rc">● Gravar</button><button id="pl" disabled>▶ Tocar</button>
  <button id="mt">Metrônomo</button><label><input type="range" id="bpm" min="40" max="200" value="100"><span id="bv">100 BPM</span></label>
 </div>
-<div class="hint">PC: as teclas seguem dos graves aos agudos: Q 2 W 3 E R 5 T 6 Y 7 U I 9 O 0 P Z S X D C F V B H N J M , L . Ç ; ~ (letras desenhadas nas teclas). ← → mudam a posição, ↑ ↓ trocam de instrumento, Espaço = sustain.</div>
+<div class="hint">PC: as teclas seguem dos graves aos agudos: Q 2 W 3 E R 5 T 6 Y 7 U I 9 O 0 P Z S X D C F V B H N J M , L . Ç ; ~ (letras desenhadas nas teclas). ← → mudam a posição, ↑ ↓ trocam de instrumento, Espaço = sustain.</div></div>
 <div class="kb" id="kb"></div>
 <button class="ped" id="ped">Pedal de sustain (segure)</button>
 <script>
@@ -124,8 +125,8 @@ addEventListener('keydown',e=>{if(e.ctrlKey||e.metaKey||e.altKey)return;const k=
  else if(k==='arrowup'||k==='arrowdown'){e.preventDefault();pick((cur+(k==='arrowup'?-1:1)+I.length)%I.length)}});
 addEventListener('keyup',e=>{const k=e.key.toLowerCase();if(e.code in CI)off('k'+e.code);else if(k===' ')setSus(false)});
 addEventListener('blur',()=>{Object.keys(voices).forEach(off)});
-function pick(i){cur=i;[...$('#chips').children].forEach((b,j)=>b.classList.toggle('act',j===i))}
-I.forEach((o,i)=>{const b=document.createElement('button');b.textContent=o.n;b.onclick=()=>{init();pick(i)};$('#chips').appendChild(b)});
+function pick(i){cur=i;$('#isel').value=i}
+I.forEach((o,i)=>{const b=document.createElement('option');b.value=i;b.textContent=o.n;$('#isel').appendChild(b)});$('#isel').onchange=e=>{init();pick(+e.target.value)};
 $('#dn').onclick=()=>shift(-1);$('#up').onclick=()=>shift(1);$('#sus').onclick=()=>setSus(!sustain);const pd=$('#ped');pd.addEventListener('pointerdown',e=>{e.preventDefault();init();pd.setPointerCapture(e.pointerId);setSus(true)});['pointerup','pointercancel'].forEach(t=>pd.addEventListener(t,()=>setSus(false)));
 $('#lbl').onclick=e=>{e.target.classList.toggle('act');kbEl.classList.toggle('nolb')};
 $('#vol').oninput=e=>master&&(master.gain.value=e.target.value);$('#rev').oninput=e=>wg&&(wg.gain.value=e.target.value);
@@ -139,6 +140,7 @@ let mT,mNext=0,mBeat=0;
 function mtick(){while(mNext<ctx.currentTime+.12){const t=mNext,o=ctx.createOscillator(),g=ctx.createGain();o.frequency.value=mBeat%4?900:1500;g.gain.setValueAtTime(.3,t);g.gain.exponentialRampToValueAtTime(.001,t+.05);o.connect(g);g.connect(master);o.start(t);o.stop(t+.06);mNext+=60/$('#bpm').value;mBeat++}}
 $('#mt').onclick=e=>{init();if(mT){clearInterval(mT);mT=null}else{mNext=ctx.currentTime+.05;mBeat=0;mT=setInterval(mtick,25)}e.target.classList.toggle('act',!!mT)};
 $('#bpm').oninput=e=>$('#bv').textContent=e.target.value+' BPM';
+$('#mn').onclick=()=>{const p=$('#panel');p.hidden=!p.hidden;$('#mn').classList.toggle('act',!p.hidden)};if(innerWidth>=900){$('#panel').hidden=false;$('#mn').classList.add('act')}
 addEventListener('resize',build);pick(0);build();
 let dp;addEventListener('beforeinstallprompt',e=>{e.preventDefault();dp=e;$('#inst').hidden=false});
 $('#inst').onclick=async()=>{if(dp){dp.prompt();dp=null;$('#inst').hidden=true}};
